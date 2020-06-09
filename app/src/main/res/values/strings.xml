@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">The Sun &amp; The Moon</string>
+    <string name="index_html">en.index.html</string>
+    <string name="error_html">en.error.html</string>
+</resources>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>Die Sonne &amp; Der Mond</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: inherit;
+            box-sizing: border-box;
+            list-style: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        *:focus {
+            outline: none;
+        }
+
+        html,
+        body {
+            width: 100vw;
+            height: 100vh;
+            font-size: medium;
+            position: relative;
+            scroll-snap-type: y mandatory;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        article {
+            scroll-snap-type: x mandatory;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            height: 100vh;
+            perspective: 1px;
+            width: 100vw;
+        }
+
+        section {
+            background-color: white;
+            margin-top: 33vw;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            width: 100vw;
+            height: 100%;
+        }
+
+        nav.wipe {
+            width: fit-content;
+            height: 100%;
+            display: flex;
+            background-color: rgba(30, 30, 30, 1);
+            z-index: -1;
+        }
+
+        ul.wipe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transform: translateZ(-1px) scale(3);
+            display: flex;
+        }
+
+        li.wipebox {
+            padding: 1em;
+            width: 33vw;
+            height: 50vh;
+            display: block;
+            color: #eee;
+        }
+
+
+
+        div.sel {
+            width: 100vw;
+            background: linear-gradient(90deg, rgba(30, 30, 30, .8) 20vw, rgba(0, 0, 0, 0) 33vw 66vw, rgba(30, 30, 30, .8) 80vw 100vw);
+            position: relative;
+            display: block;
+            left: 0;
+            bottom: calc(100vh - 0);
+            pointer-events: none;
+            height: 33vw;
+        }
+
+
+        main {
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            display: grid;
+            grid-template-rows:
+                /* calc(100vh - 33vw) */
+                100vh 100vh;
+            height: 100%;
+            width: 100%;
+            max-width: 1024px;
+            margin: auto;
+            background-color: inherit;
+            perspective: 1px;
+        }
+
+        main>* {
+            scroll-snap-align: start end;
+            scroll-snap-stop: always;
+            background-color: inherit;
+        }
+
+        div.spacer {
+            pointer-events: none;
+            background-image: linear-gradient(90deg,
+                    rgba(30, 30, 30, .8) 20vw,
+                    rgba(0, 0, 0, 0) 33vw 66vw,
+                    rgba(30, 30, 30, .8) 80vw 100vw);
+            background-size: 100vw 33vw;
+            background-repeat: no-repeat;
+            background-position: left bottom;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="spacer">&nbsp;</div>
+
+        <article style="margin: -33vw 0 0 0;z-index: -1;">
+            <nav class="wipe">
+                <ul class="wipe">
+                    <li class="wipebox">AAAA</li>
+                    <li class="wipebox">BBBB</li>
+                    <li class="wipebox">CCCC</li>
+                    <li class="wipebox">DDDD</li>
+                    <li class="wipebox">EEEE</li>
+                    <li class="wipebox">FFFF</li>
+                </ul>
+                <section>1</section>
+                <section>2</section>
+                <section>3</section>
+                <section>2</section>
+                <section>3</section>
+                <section>2</section>
+                <section>3</section>
+            </nav>
+        </article>
+        <div class="sel"></div>
+    </main>
+    <!--     <main>
+        <div class="dummy">
+            <article>&nbsp;</article>
+        </div>
+        <div class="dummy">
+            <article>
+                <nav class="wipe">
+                    <ul class="wipe">
+                        <li class="wipebox">AAAA</li>
+                        <li class="wipebox">BBBB</li>
+                        <li class="wipebox">CCCC</li>
+                        <li class="wipebox">DDDD</li>
+                        <li class="wipebox">EEEE</li>
+                        <li class="wipebox">FFFF</li>
+                    </ul>
+                    <section>1</section>
+                    <section>2</section>
+                    <section>3</section>
+                    <section>2</section>
+                    <section>3</section>
+                    <section>2</section>
+                    <section>3</section>
+                </nav>
+            </article>
+        </div>
+    </main> -->
+</body>
+
+</html>
