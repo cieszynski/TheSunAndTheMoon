@@ -69,10 +69,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view,
                                                               WebResourceRequest request) {
-                if (request.getUrl().getPath().endsWith("/favicon.ico")) {
+                if (request.getUrl().toString().endsWith(".ico")) {
                     return new WebResourceResponse("image/png", null, null);
                 }
-                return mAssetLoader.shouldInterceptRequest(request.getUrl());
+
+                // https://stackoverflow.com/a/60724359
+                WebResourceResponse intercepted = mAssetLoader.shouldInterceptRequest(request.getUrl());
+                if (request.getUrl().toString().endsWith("js")) {
+                    if (intercepted != null) {
+                        intercepted.setMimeType("application/javascript");
+                    }
+                }
+                return intercepted;
             }
         });
 
