@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 
 <head>
     <title>Die Sonne &amp; Der Mond</title>
@@ -35,13 +35,16 @@
             color: inherit;
         }
 
-        article {
+        article#infopanel {
             scroll-snap-type: x mandatory;
             overflow-x: scroll;
             overflow-y: hidden;
             height: 100vh;
             perspective: 1px;
             width: 100vw;
+            margin: -33vw 0 0 0;
+            z-index: -1;
+            box-shadow: 0 -2px 10px 5px;
         }
 
         section {
@@ -51,6 +54,7 @@
             scroll-snap-stop: always;
             width: 100vw;
             height: 100%;
+            z-index: 1;
         }
 
         nav.wipe {
@@ -71,26 +75,13 @@
         }
 
         li.wipebox {
-            padding: 1em;
+            padding: .1em;
             width: 33vw;
             height: 50vh;
             display: block;
             color: #eee;
+            font-size: x-small;
         }
-
-
-
-        div.sel {
-            width: 100vw;
-            background: linear-gradient(90deg, rgba(30, 30, 30, .8) 20vw, rgba(0, 0, 0, 0) 33vw 66vw, rgba(30, 30, 30, .8) 80vw 100vw);
-            position: relative;
-            display: block;
-            left: 0;
-            bottom: calc(100vh - 0);
-            pointer-events: none;
-            height: 33vw;
-        }
-
 
         main {
             position: relative;
@@ -99,11 +90,9 @@
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
             display: grid;
-            grid-template-rows:
-                /* calc(100vh - 33vw) */
-                100vh 100vh;
-            height: 100%;
-            width: 100%;
+            grid-template-rows: 100vh 100vh;
+            height: 100vh;
+            width: 100vw;
             max-width: 1024px;
             margin: auto;
             background-color: inherit;
@@ -126,60 +115,333 @@
             background-repeat: no-repeat;
             background-position: left bottom;
         }
+
+        li.wipebox {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        li.wipebox time,
+        li.wipebox data {
+            display: block;
+            font-size: 9px;
+            text-align: center;
+        }
+
+        li.wipebox time {
+            margin-top: .8em;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
     </style>
 </head>
 
 <body>
+    <form id="data"></form>
+    <canvas id="canvas"></canvas>
+    <header>
+        <div style="width: calc(100vh / 3)">
+            <output name="latitude" form="data">-.---</output><br>
+            <output name="longitude" form="data">-.---</output>
+        </div>
+        <div style="width: calc(100vh / 3)">
+            <output name="altitude" form="data">-.---</output><br>
+            <output name="azimuth" form="data">-.---</output>
+        </div>
+        <div style="width: calc(100vh / 3)">
+            <label>alM<output name="moon_altitude" form="data">-.---</output></label><br>
+            <label>azM<output name="moon_azimuth" form="data">-.---</output></label>
+        </div>
+    </header>
     <main>
         <div class="spacer">&nbsp;</div>
 
-        <article style="margin: -33vw 0 0 0;z-index: -1;">
+        <article id="infopanel">
             <nav class="wipe">
                 <ul class="wipe">
-                    <li class="wipebox">AAAA</li>
-                    <li class="wipebox">BBBB</li>
-                    <li class="wipebox">CCCC</li>
-                    <li class="wipebox">DDDD</li>
-                    <li class="wipebox">EEEE</li>
-                    <li class="wipebox">FFFF</li>
+                    <li class="wipebox">
+                        <time>1</time>
+                        <data></data>
+                        <data></data>
+                    </li>
+                    <li class="wipebox">
+                        <time>2</time>
+                        <data></data>
+                        <data></data>
+                    </li>
+                    <li class="wipebox">
+                        <time>3</time>
+                        <data></data>
+                        <data></data>
+                    </li>
+                    <li class="wipebox">
+                        <time>4</time>
+                        <data></data>
+                        <data></data>
+                    </li>
+                    <li class="wipebox">
+                        <time>5</time>
+                        <data></data>
+                        <data></data>
+                    </li>
+                    <li class="wipebox">
+                        <time>6</time>
+                        <data></data>
+                        <data></data>
+                    </li>
+                    <li class="wipebox">
+                        <time>7</time>
+                        <data></data>
+                        <data></data>
+                    </li>
                 </ul>
-                <section>1</section>
-                <section>2</section>
-                <section>3</section>
-                <section>2</section>
-                <section>3</section>
-                <section>2</section>
-                <section>3</section>
+                <section data-jd="1">1</section>
+                <section data-jd="2">2</section>
+                <section data-jd="3">3</section>
+                <section data-jd="4">4</section>
+                <section data-jd="5">5</section>
+                <section data-jd="6">6</section>
+                <section data-jd="7">7</section>
             </nav>
         </article>
-        <div class="sel"></div>
     </main>
-    <!--     <main>
-        <div class="dummy">
-            <article>&nbsp;</article>
-        </div>
-        <div class="dummy">
-            <article>
-                <nav class="wipe">
-                    <ul class="wipe">
-                        <li class="wipebox">AAAA</li>
-                        <li class="wipebox">BBBB</li>
-                        <li class="wipebox">CCCC</li>
-                        <li class="wipebox">DDDD</li>
-                        <li class="wipebox">EEEE</li>
-                        <li class="wipebox">FFFF</li>
-                    </ul>
-                    <section>1</section>
-                    <section>2</section>
-                    <section>3</section>
-                    <section>2</section>
-                    <section>3</section>
-                    <section>2</section>
-                    <section>3</section>
-                </nav>
-            </article>
-        </div>
-    </main> -->
 </body>
+<script type="module">
+    import * as ephere from './ephere.mjs';
+
+    const deg = 180 / Math.PI;
+
+    const canvas = document.querySelector('canvas');
+    const infopanel = document.querySelector('article#infopanel');
+    const sections = document.querySelectorAll('section');
+    const listitems = document.querySelectorAll('li');
+
+    const field_lat = document.forms.data.elements.latitude;
+    const field_lon = document.forms.data.elements.longitude;
+    const field_alt = document.forms.data.elements.altitude;
+    const field_azm = document.forms.data.elements.azimuth;
+    const field_altM = document.forms.data.elements.moon_altitude;
+    const field_azmM = document.forms.data.elements.moon_azimuth;
+
+    const today = new Date();
+    const tz = -today.getTimezoneOffset() / 60;
+
+    const draw = () => {
+        const now = new Date();
+        const ut = (now.getUTCHours() + now.getUTCMinutes() / 60) / 24
+        const jd = ephere.JD(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate())
+        const lat = parseFloat(field_lat.value);
+        const lon = parseFloat(field_lon.value);
+        const data = ephere.query(jd, tz, lat, lon);
+        const daylight = data.sun.set - data.sun.rise;
+        console.log(daylight)
+        // SUN
+        const sun = new ephere.Sun();
+        const sun_pos = sun.equatorial_coordinates(jd);
+        const sun_LHA = sun.local_hour_angle(jd, ut, lon);
+        // -4° to -8° blue hour
+        // -6° Civil twilight
+        // -12° Nautical twilight
+        // -18° Astronomical twilight
+        const twillight = -6;
+        let sun_al = deg * sun.altitude(sun_LHA, lat, sun_pos.dec);
+        sun_al = (sun_al > twillight) ? sun_al : twillight;
+        let sun_az = deg * sun.azimuth(sun_LHA, lat, sun_pos.dec);
+        // sun_az += (sun_az < 0) ? 360 : 0; // 90° => rise, 180° => noon, 270° => set
+
+        field_azm.value = (sun_az).toFixed(2);
+        field_alt.value = (sun_al).toFixed(2);
+
+        // Moon
+        const moon = new ephere.Moon();
+        const moon_pos = moon.equatorial_coordinates(jd);
+        const moon_LHA = moon.local_hour_angle(jd, ut, lon)
+        let moon_al = deg * moon.altitude(moon_LHA, lat, moon_pos.dec);
+        moon_al -= (moon_al < 0) ? moon_al : 0; // only values in range 0 - 90
+        let moon_az = deg * moon.azimuth(moon_LHA, lat, moon_pos.dec);
+        moon_az += (moon_az < 0) ? 360 : 0; // 90° => rise, 180° => noon, 270° => set
+
+        field_azmM.value = (moon_az).toFixed(2);
+        field_altM.value = (moon_al).toFixed(2);
+
+        // Canvas
+        const ctx = canvas.getContext('2d');
+        const width = canvas.clientWidth;
+        canvas.width = width;
+        const height = canvas.clientHeight;
+        canvas.height = height;
+
+        ctx.clearRect(0, 0, width, height);
+        const sky_gradient = ctx.createLinearGradient(0, height, 0, 0);
+        // the order is important (from bottom to top)
+        sky_gradient.addColorStop(.6, 'LightSkyBlue');
+        sky_gradient.addColorStop(.9, 'DeepSkyBlue');
+        sky_gradient.addColorStop(.9, 'MidnightBlue');
+        ctx.fillStyle = sky_gradient;
+        ctx.fillRect(0, 0, width, height);
+
+        const sun_gradient_radius = [20, 40];
+        const sun_pos_left = (width - 2 * sun_gradient_radius[1]) / daylight * (now.getHours() - data.sun.rise) + sun_gradient_radius[1];
+        const sun_pos_top = height / 2 - (height / 2 - 2 * sun_gradient_radius[1]) / 90 * sun_al;
+        const sun_gradient = ctx.createRadialGradient(
+            sun_pos_left,
+            sun_pos_top,
+            sun_gradient_radius[0],
+            sun_pos_left,
+            sun_pos_top,
+            sun_gradient_radius[1]);
+        sun_gradient.addColorStop(0.1, 'rgba(255,255,150,1)');
+        sun_gradient.addColorStop(1, 'rgba(255,255,224,.1)');
+
+
+        ctx.arc(sun_pos_left, sun_pos_top, sun_gradient_radius[1], 0, 2 * Math.PI);
+        ctx.fillStyle = sun_gradient;
+        ctx.fill();
+
+        //  ctx.fillRect(0, 0, width, height);
+        setTimeout(() => { requestAnimationFrame(draw) }, 60000);
+    }
+
+    const fill_box = (el, data) => {
+        el.children[0].textContent = data.date.toLocaleDateString();
+        el.children[1].textContent = `\u2609 ${ephere.hhmm(data.sun.rise).join(':')} - ${ephere.hhmm(data.sun.set).join(':')}`;
+        el.children[2].textContent = `\u263E ${ephere.hhmm(data.moon.rise).join(':')} - ${ephere.hhmm(data.moon.set).join(':')}`;
+
+    }
+
+    const fill_panel = (el, data) => {
+
+        for (var i = -3; i < sections.length - 3; i++) {
+
+            listitems[i].firstElementChild.textContent = i;
+        }
+    }
+
+    const prepare = (lat, lon) => {
+
+
+        for (var i = -3; i < sections.length - 3; i++) {
+            let date = new Date(today);
+            date.setDate(today.getDate() + i)
+            let jd = ephere.JD(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
+
+            let data = ephere.query(jd, tz, lat, lon);
+            data.date = date;
+            fill_box(listitems[i + 3], data);
+        }
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (result) => {
+            let lat = result.coords.latitude;
+            let lon = result.coords.longitude;
+            field_lat.value = lat.toFixed(3);
+            field_lon.value = lon.toFixed(3);
+
+            prepare(lat, lon)
+            draw()
+        },
+        (err) => {
+            switch (err.code) {
+                case GeolocationPositionError.PERMISSION_DENIED:
+                case GeolocationPositionError.POSITION_UNAVAILABLE:
+                case GeolocationPositionError.TIMEOUT:
+                    console.error(err.code);
+            }
+        });
+</script>
+
+<script>
+    const article = document.querySelector('article');
+    const wipe = document.querySelector('nav.wipe');
+    const left = wipe.querySelector('.left')//document.querySelector('template#left').content.cloneNode(true);
+    const right = wipe.querySelector('.right')//document.querySelector('template#right').content.cloneNode(true);
+    const short = document.querySelector('template#short');
+    const long = document.querySelector('template#long');
+    const shortwipe = document.querySelector('ul.wipe');
+
+    let timeout = null;
+    const addleft = (e) => {
+        window.clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            window.requestAnimationFrame(() => {
+                wipe.firstElementChild.after(wipe.lastElementChild);
+                shortwipe.firstElementChild.before(shortwipe.lastElementChild);
+                article.removeEventListener('scroll', addleft);
+                for (var el of wipe.querySelectorAll('section')) {
+                    io.observe(el)
+                }
+            });
+        }, 50)
+    }
+
+    const addright = (e) => {
+        window.clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            window.requestAnimationFrame(() => {
+                wipe.lastElementChild.after(wipe.children[1]);
+                shortwipe.lastElementChild.after(shortwipe.firstElementChild);
+                article.removeEventListener('scroll', addright);
+                for (var el of wipe.querySelectorAll('section')) {
+                    io.observe(el)
+                }
+            });
+        }, 50)
+    }
+
+    const io = new IntersectionObserver((entries) => {
+
+        for (const entry of entries) {
+            if (entry.isIntersecting) {
+                if (entry.target.previousElementSibling.previousElementSibling == wipe.firstElementChild) {
+                    for (var el of wipe.querySelectorAll('section')) {
+                        io.unobserve(el)
+                    }
+                    article.addEventListener('scroll', addleft);
+                }
+
+                if (entry.target.nextElementSibling.nextElementSibling == null) {
+                    for (var el of wipe.querySelectorAll('section')) {
+                        io.unobserve(el)
+                    }
+                    article.addEventListener('scroll', addright);
+                }
+                // console.log(entry.target.nextElementSibling.nextElementSibling)
+            }
+        }
+    }, {
+        threshold: [0],
+        root: article,
+        rootMargin: "50%"
+    });
+
+    wipe.parentNode.scrollBy({
+        left: 700,
+        // behavior: 'smooth'
+    })
+
+    for (var el of wipe.querySelectorAll('section')) {
+        io.observe(el)
+    }
+
+</script>
 
 </html>
