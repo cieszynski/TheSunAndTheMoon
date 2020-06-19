@@ -18,9 +18,10 @@ const PI = Math.PI,
     pow = Math.pow,
     deg = 180 / PI,
     rad = PI / 180;
+const J1970 = 2440587.5;
 const J2000 = 2451545;
 const JDTT = (y, m, d, hh = 0, mm = 0, ss = 0) => { return 2440587.5 + Date.UTC(y, m - 1, d, hh, mm, ss) / 86400000; }
-
+const UT = (hh, mm) => { return hh + mm / 60; }
 const epsilon = (t) => {
     t /= 100;
     //const t = T(jd) / 100;
@@ -269,6 +270,16 @@ export class Moon extends CelestialObject {
             r: R
         }
     }
+
+    age(jd) {
+        // http://community.facer.io/t/moon-phase-formula-updated/35691/5
+        const j = (jd - J1970) * 86400000;
+        return (((j / 2551442844 - 0.228535)
+            + 0.00591997 * Math.sin(j / 5023359217 + 3.1705094)
+            + 0.017672776 * Math.sin(j / 378923968 - 1.5388144)
+            - 0.0038844429 * Math.sin(j / 437435791 + 2.0017235)
+            - 0.00041488 * Math.sin(j / 138539900 - 1.236334)) % 1);
+    }
 }
 
 export const query = (jd, tz, lat, lon) => {
@@ -278,10 +289,10 @@ export const query = (jd, tz, lat, lon) => {
     // sun_data.az = 
     const moon = new Moon();
     let moon_data = moon.times(jd, tz, lat, lon);
-
+    moon_data.age = moon.age(jd);
+    
     return {
         sun: sun_data,
         moon: moon_data
     }
 }
-

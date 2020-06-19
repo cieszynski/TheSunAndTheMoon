@@ -228,6 +228,7 @@
     import * as ephere from './ephere.mjs';
 
     const deg = 180 / Math.PI;
+    const rad = Math.PI / 180;
 
     const canvas = document.querySelector('canvas');
     const infopanel = document.querySelector('article#infopanel');
@@ -244,6 +245,8 @@
     const today = new Date();
     const tz = -today.getTimezoneOffset() / 60;
 
+    const UT = (hh, mm) => { return hh + mm / 60; }
+    var aa = 0
     const draw = () => {
         const now = new Date();
         const ut = (now.getUTCHours() + now.getUTCMinutes() / 60) / 24
@@ -252,7 +255,14 @@
         const lon = parseFloat(field_lon.value);
         const data = ephere.query(jd, tz, lat, lon);
         const daylight = data.sun.set - data.sun.rise;
-        console.log(daylight)
+        // const moonlight = (data.moon.set != null && data.moon.rise != null)
+        //     ? (data.moon.set > data.moon.rise)
+        //         ? data.moon.set - data.moon.rise
+        //         : data.moon.rise - data.moon.set
+        //     : (data.moon.rise == null)
+        //         ? data.moon.set
+        //         : 24 - data.moon.rise;
+
         // SUN
         const sun = new ephere.Sun();
         const sun_pos = sun.equatorial_coordinates(jd);
@@ -265,7 +275,7 @@
         let sun_al = deg * sun.altitude(sun_LHA, lat, sun_pos.dec);
         sun_al = (sun_al > twillight) ? sun_al : twillight;
         let sun_az = deg * sun.azimuth(sun_LHA, lat, sun_pos.dec);
-        // sun_az += (sun_az < 0) ? 360 : 0; // 90° => rise, 180° => noon, 270° => set
+        sun_az += (sun_az < 0) ? 360 : 0; // 90° => rise, 180° => noon, 270° => set
 
         field_azm.value = (sun_az).toFixed(2);
         field_alt.value = (sun_al).toFixed(2);
@@ -291,15 +301,68 @@
 
         ctx.clearRect(0, 0, width, height);
         const sky_gradient = ctx.createLinearGradient(0, height, 0, 0);
+        let blue = [.6, 1, 1];
+
+        if (sun_al < 6) {
+            let a = sun_al + Math.abs(twillight);
+            blue[0] = .6 / 12 * a;
+            blue[1] = 1 / 12 * a;
+            blue[2] = Math.sin(90 / 12 * a * Math.PI / 180);
+        }
         // the order is important (from bottom to top)
-        sky_gradient.addColorStop(.6, 'LightSkyBlue');
-        sky_gradient.addColorStop(.9, 'DeepSkyBlue');
-        sky_gradient.addColorStop(.9, 'MidnightBlue');
+        sky_gradient.addColorStop(blue[0], 'LightSkyBlue');
+        sky_gradient.addColorStop(blue[1], 'DeepSkyBlue');
+        sky_gradient.addColorStop(blue[2], 'MidnightBlue');
+
         ctx.fillStyle = sky_gradient;
         ctx.fillRect(0, 0, width, height);
 
+        const hours = UT(now.getHours(), now.getMinutes());
+        const moon_gradient_radius = [20, 30];
+        let r2 = (width - 2 * moon_gradient_radius[1]) / 2
+        let moon_pos_left = width / 2 - Math.cos(Math.PI / 180 * (moon_az - 90)) * r2;
+        ctx.save();
+
+        const moon_pos_top = height / 2 - (height / 2 - 2 * moon_gradient_radius[1]) / 90 * moon_al;
+        // rotate the crescent based on latitude
+        ctx.translate(moon_pos_left, moon_pos_top)
+        ctx.rotate(rad * (90-lat))
+        ctx.translate(-moon_pos_left, -moon_pos_top)
+
+        const moon_gradient = ctx.createRadialGradient(
+            moon_pos_left,
+            moon_pos_top,
+            moon_gradient_radius[0],
+            moon_pos_left,
+            moon_pos_top,
+            moon_gradient_radius[1]);
+        moon_gradient.addColorStop(0.1, 'rgba(255,255,255,1)');
+        moon_gradient.addColorStop(1, 'rgba(255,255,254,.1)');
+        let x1 = moon_pos_left,
+            y1 = moon_pos_top,
+            r1 = moon_gradient_radius[1];
+
+        let a = (data.moon.age <= 0.5)
+            ? data.moon.age * 160 - 40
+            : (data.moon.age - 0.5) * 160 - 40;
+
+        ctx.beginPath();
+        ctx.arc(x1, y1, 30, -Math.PI / 2, Math.PI / 2, (data.moon.age <= 0.5))
+        ctx.bezierCurveTo(x1 + a, y1 + r1, x1 + a, y1 - r1, x1, y1 - r1);
+
+        ctx.fillStyle = moon_gradient;
+        ctx.fill();
+        ctx.restore()
+
         const sun_gradient_radius = [20, 40];
-        const sun_pos_left = (width - 2 * sun_gradient_radius[1]) / daylight * (now.getHours() - data.sun.rise) + sun_gradient_radius[1];
+        let sun_pos_left = sun_gradient_radius[1];
+        if (hours > data.sun.rise && hours < data.sun.set) {
+            sun_pos_left += (width - 2 * sun_gradient_radius[1]) / daylight * (now.getHours() - data.sun.rise);
+        }
+        if (hours > data.sun.set) {
+            sun_pos_left = width - sun_gradient_radius[1];
+        }
+
         const sun_pos_top = height / 2 - (height / 2 - 2 * sun_gradient_radius[1]) / 90 * sun_al;
         const sun_gradient = ctx.createRadialGradient(
             sun_pos_left,
@@ -310,7 +373,6 @@
             sun_gradient_radius[1]);
         sun_gradient.addColorStop(0.1, 'rgba(255,255,150,1)');
         sun_gradient.addColorStop(1, 'rgba(255,255,224,.1)');
-
 
         ctx.arc(sun_pos_left, sun_pos_top, sun_gradient_radius[1], 0, 2 * Math.PI);
         ctx.fillStyle = sun_gradient;
