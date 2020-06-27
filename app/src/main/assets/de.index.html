@@ -224,6 +224,29 @@
         </article>
     </main>
 </body>
+<script>
+    if (!window.indexedDB) {
+        console.error("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+    } else {
+        var request = indexedDB.open("MyTestDatabase");
+        request.onerror = function (event) {
+            console.error("Why didn't you allow my web app to use IndexedDB?!");
+        };
+        request.onsuccess = function (event) {
+            db = event.target.result;
+            console.log(db)
+        };
+    }
+    const worker = new Worker('worker.mjs', { type: 'module' })
+    worker.onerror = function (e) { console.log(e) }
+    worker.onmessage = (e) => {
+        switch (e.data.type) {
+
+        }
+        console.log(e.data)
+    }
+    worker.postMessage({ data: 0 })
+</script>
 <script type="module">
     import * as ephere from './ephere.mjs';
 
@@ -326,7 +349,7 @@
         const moon_pos_top = height / 2 - (height / 2 - 2 * moon_gradient_radius[1]) / 90 * moon_al;
         // rotate the crescent based on latitude
         ctx.translate(moon_pos_left, moon_pos_top)
-        ctx.rotate(rad * (90-lat))
+        ctx.rotate(rad * (90 - lat))
         ctx.translate(-moon_pos_left, -moon_pos_top)
 
         const moon_gradient = ctx.createRadialGradient(

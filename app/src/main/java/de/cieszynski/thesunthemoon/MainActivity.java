@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String index_html = getString(R.string.index_html);
+        String index_html = "index.html";// getString(R.string.index_html);
         String error_html = getString(R.string.error_html);
 
         PackageInfo webViewPackageInfo = WebViewCompat.getCurrentWebViewPackage(this);
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setUseWideViewPort(true);
         webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
         webSettings.setJavaScriptEnabled(true);
 
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
