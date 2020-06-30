@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Sun &amp; The Moon</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        @font-face {
+            font-family: "Roboto";
+            src: url("font/Roboto-Regular.ttf") format("truetype");
+        }
+
+        @font-face {
+            font-family: "material-icons";
+            src: url("font/MaterialIcons-Regular.ttf") format("truetype");
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        *:focus {
+            outline: none;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: "Roboto";
+        }
+
+        body {
+            display: grid;
+            grid-template-rows: 50vh 50vh;
+        }
+
+        canvas {
+            width: 100vw;
+            height: 50vh;
+        }
+
+        main {
+            box-shadow: 0 -2px 10px 5px;
+            position: relative;
+            scroll-snap-type: x mandatory;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            perspective: 1px;
+            width: 100vw;
+            height: 50vh;
+        }
+
+        nav {
+            width: fit-content;
+            display: flex;
+            z-index: 1;
+            height: 100%;
+        }
+
+        ul {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transform: translateZ(-1px) scale(3);
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 33vw;
+            height: 25vh;
+            font-size: x-small;
+            margin-bottom: 20vh;
+        }
+
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 33vw;
+            background-color: white;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            width: 100vw;
+            z-index: 1;
+        }
+
+        footer {
+            display: flex;
+            align-items: end;
+            position: fixed;
+            bottom: 50vh;
+            left: 0;
+            width: 100%;
+            color: white
+        }
+
+        output {
+            margin: .2em;
+            display: inline-block;
+            text-align: center;
+            white-space: pre;
+        }
+
+        output[name^='sun_']::before {
+            content: '\A0\2609\A0';
+        }
+
+        output[name^='moon_']::before {
+            content: '\A0\263E\A0';
+        }
+
+        div.spacer {
+            position: absolute;
+            top: 50vh;
+            left: 0;
+            width: 100vw;
+            height: 33vw;
+            pointer-events: none;
+            background-image: linear-gradient(90deg,
+                    rgba(255, 255, 255, .5) 20vw,
+                    rgba(0, 0, 0, 0) 33vw 66vw,
+                    rgba(255, 255, 255, .5) 80vw 100vw);
+            background-size: 100vw 33vw;
+            background-repeat: no-repeat;
+            background-position: left bottom;
+            border-bottom: 2px solid lightgray;
+        }
+
+        header {
+            font-family: 'material-icons';
+            font-size: 24px;
+            display: flex;
+            align-items: flex-start;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        button {
+            font-family: 'material-icons';
+            font-size: 24px;
+            background: none;
+            border: none;
+            margin: 12px;
+            color: white;
+        }
+
+        dialog {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <button type="button" id="menu">&#xe5d2;</button>
+    </header>
+    <footer>
+        <form id="data" />
+        <output name="lat" form="data"></output>
+        <output name="lon" form="data"></output>
+        <output name="alpha">xxx</output>
+    </footer>
+    <canvas id="canvas"></canvas>
+    <main>
+        <nav>
+            <ul>
+                <li>
+                    <output name="date_0"></output>
+                    <output name="sun_0"></output>
+                    <output name="moon_0"></output>
+                </li>
+                <li>
+                    <output name="date_1"></output>
+                    <output name="sun_1"></output>
+                    <output name="moon_1"></output>
+                </li>
+                <li>
+                    <output name="date_2"></output>
+                    <output name="sun_2"></output>
+                    <output name="moon_2"></output>
+                </li>
+            </ul>
+            <section>
+                <output name="sun_0"></output>
+                <output name="suntw_0"></output>
+                <output name="moon_0"></output>
+                <output name="moonfm_0"></output>
+            </section>
+            <section>
+                <output name="sun_1"></output>
+                <output name="suntw_1"></output>
+                <output name="moon_1"></output>
+                <output name="moonfm_1"></output>
+            </section>
+            <section>
+                <output name="sun_2"></output>
+                <output name="suntw_2"></output>
+                <output name="moon_2"></output>
+                <output name="moonfm_2"></output>
+            </section>
+        </nav>
+    </main>
+    <div class="spacer"></div>
+    <dialog id="info" onclick="this.close()">
+        <p>Die Sonne &amp; Der Mond</p>
+        <p>Von Stephan Cieszynski</p>
+        <p style="font-size: xx-small;">http://github.cieszynski.de/TheSunAndTheMoon/</p>
+    </dialog>
+    <dialog id="error">
+
+    </dialog>
+</body>
+<script type="module">
+    import * as ephere from './ephere.mjs';
+    import Sun from './sun.mjs';
+    import Moon from './moon.mjs';
+    const PI = Math.PI;
+    const sin = Math.sin;
+    const cos = Math.cos;
+    const rad = PI / 180;
+    const deg = 180 / PI;
+    const log = console.log;
+
+    const today = document.querySelector('#today');
+    const dialog_info = document.querySelector('dialog#info');
+    const dialog_error = document.querySelector('dialog#error');
+    const button_menu = document.querySelector('button#menu');
+    button_menu.onclick = function (e) { dialog_info.showModal(); }
+    const canvas = document.querySelector('canvas');
+
+    const items = document.querySelectorAll('li');
+    const sections = document.querySelectorAll('section');
+
+    let timeout = null;
+    let lat = null;
+    let lon = null;
+
+    const draw_moon = (ctx, w, h, jd) => {
+        ctx.save();
+        const moon = new Moon();
+        const [d, ra, dec] = moon.rradec(jd);
+        const [az, al] = moon.azal(jd, lat * rad, lon * rad, ra, dec);
+        const age = moon.age(jd);
+        h -= 15 // skylines height
+        let s = 6;
+        let r = 30;
+        let x = (/* PI * 0.5 <= az && az <= PI * 1.5 */1) ? (w / 2) - (Math.cos(az - 90 * rad) * (w / 2 - r)) : r;
+        let y = (al >= 0) ? h - r - ((h - 2 * r) / 90 * al * deg) : h - r;
+        let a = (age <= 0.5)
+            ? age * 160 - 40
+            : (age - 0.5) * 160 - 40;
+        // y -= 60; // skylines height
+        ctx.translate(x, y)
+        ctx.rotate(rad * (90 + lat))
+        ctx.translate(-x, -y)
+        ctx.lineWidth = s;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(x, y, 30, -PI / 2, PI / 2, (age <= 0.5))
+        ctx.bezierCurveTo(x + a, y + r + s / 2, x + a, y - r - s / 2, x, y - r);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.restore()
+    }
+
+    const draw_sky = (ctx, w, h, jd) => {
+        ctx.save();
+        const sun = new Sun();
+        const [d, ra, dec] = sun.rradec(jd);
+        const [az, al] = sun.azal(jd, lat * rad, lon * rad, ra, dec);
+
+        if (al * deg > -6 && al * deg < 6) {
+            const r = 25 + (135 - 25) / 12 * (al * deg + 6);
+            const g = 25 + (206 - 25) / 12 * (al * deg + 6);
+            const b = 112 + (250 - 112) / 12 * (al * deg + 6);
+            ctx.fillStyle = `rgb(${r}, ${g}, ${b}`;
+        } else {
+            if (al * deg > 6) {
+                ctx.fillStyle = `rgb(135, 206, 250`; // #87CEFA
+            }
+
+            if (al * deg < -6) {
+                ctx.fillStyle = `rgb(25, 25, 112`; // #191970
+            }
+        }
+
+        ctx.fillRect(0, 0, w, h);
+        ctx.restore()
+    }
+
+    const draw_sun = (ctx, w, h, jd) => {
+        ctx.save();
+        const sun = new Sun();
+        const [d, ra, dec] = sun.rradec(jd);
+        const [az, al] = sun.azal(jd, lat * rad, lon * rad, ra, dec);
+        h -= 15 // skylines height
+        let r = 15, s1 = 5, s2 = 20;
+        let x = (/* PI * 0.5 <= az && az <= PI * 1.5 */1) ? (w / 2) - (cos(az - 90 * rad) * (w / 2 - (r + s2))) : (r + s2);
+        let y = (al >= 0) ? h - (r + s2) - ((h - 2 * (r + s2)) / 90 * al * deg) : h - (r + s2);
+        // y -= 60; // skylines height
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = 'yellow';
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+            ctx.translate(x, y)
+            ctx.rotate(rad * 60);
+            ctx.translate(-x, -y)
+            ctx.moveTo(x + r + s1, y);
+            ctx.lineTo(x + r + s2, y);
+        }
+        ctx.moveTo(x + r, y)
+        ctx.arc(x, y, r, 0, 2 * PI);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore()
+    }
+
+    const get_rise_set = (o, now) => {
+        //const now = new Date();
+        const tz = now.getTimezoneOffset() / -60;
+        let jd = ephere.JD(
+            now.getUTCFullYear(),
+            now.getUTCMonth() + 1,
+            now.getUTCDate());
+
+        const [hhrise, hhset, above] = o.riseset(jd, tz, lat * rad, lon * rad);
+
+        const [hr, mr, sr] = ephere.hhmmss(hhrise);
+        now.setHours(hr)
+        now.setMinutes(mr)
+        now.setSeconds(sr)
+
+        jd = ephere.JD(
+            now.getUTCFullYear(),
+            now.getUTCMonth() + 1,
+            now.getUTCDate(),
+            now.getUTCHours(),
+            now.getUTCMinutes(),
+            now.getUTCSeconds());
+        const [rr, rar, decr] = o.rradec(jd);
+        const [azr, alr] = o.azal(jd, lat * rad, lon * rad, rar, decr);
+
+        const [hs, ms, ss] = ephere.hhmmss(hhset);
+        now.setHours(hs)
+        now.setMinutes(ms)
+        now.setSeconds(ss)
+
+        jd = ephere.JD(
+            now.getUTCFullYear(),
+            now.getUTCMonth() + 1,
+            now.getUTCDate(),
+            now.getUTCHours(),
+            now.getUTCMinutes(),
+            now.getUTCSeconds());
+        const [rs, ras, decs] = o.rradec(jd);
+        const [azs, als] = o.azal(jd, lat * rad, lon * rad, ras, decs);
+
+        return [hhrise, azr, alr, hhset, azs, als];
+    }
+
+    const img = new Image();
+    img.src = 'skyline.svg';
+
+    const draw_skyline = (ctx, w, h) => {
+        ctx.save();
+        ctx.drawImage(img, 0, 20, w, h);
+        img.onload = function () {
+            ctx.drawImage(img, 0, 20, w, h);
+        }
+        ctx.restore()
+    }
+
+    const draw = () => {
+        const now = new Date();
+        const jd = ephere.JD(
+            now.getUTCFullYear(),
+            now.getUTCMonth() + 1,
+            now.getUTCDate(),
+            now.getUTCHours(),
+            now.getUTCMinutes(),
+            now.getUTCSeconds());
+
+        const ctx = canvas.getContext('2d');
+        const width = canvas.clientWidth;
+        canvas.width = width;
+        const height = canvas.clientHeight;
+        canvas.height = height;
+
+        ctx.clearRect(0, 0, width, height);
+
+        draw_sky(ctx, width, height, jd);
+        draw_moon(ctx, width, height, jd);
+        draw_sun(ctx, width, height, jd);
+        draw_skyline(ctx, width, height);
+
+        const sun = new Sun();
+        const moon = new Moon();
+
+        items.forEach((el, idx) => {
+            const now = new Date();
+            now.setDate(now.getDate() + idx - 1);
+
+            el.children.namedItem(`date_${idx}`).textContent = `${now.toLocaleDateString()}`;
+
+            // SUN
+            let [hhrise, azr, alr, hhset, azs, als] = get_rise_set(sun, now)
+            el.children.namedItem(`sun_${idx}`).textContent = `${ephere.hhmm(hhrise)} - ${ephere.hhmm(hhset)}`;
+            sections[idx].children.namedItem(`sun_${idx}`)
+                .textContent =
+                `Sonne\n ${ephere.hhmm(hhrise)} (${(azr * deg).toFixed(0)}°) - ` +
+                `${ephere.hhmm(hhset)}  (${(azs * deg).toFixed(0)}°)`;
+
+            const tz = now.getTimezoneOffset() / -60;
+            let jd = ephere.JD(
+                now.getUTCFullYear(),
+                now.getUTCMonth() + 1,
+                now.getUTCDate());
+
+            const [twrise, twset, twabove] = sun.riseset(jd, tz, lat * rad, lon * rad, ephere.TWILIGHT.CIVIL);
+            sections[idx].children.namedItem(`suntw_${idx}`)
+                .textContent =
+                `Dämmerung ${ephere.hhmm(twrise)} - ${ephere.hhmm(twset)}`;
+
+            // MOON
+            [hhrise, azr, alr, hhset, azs, als] = get_rise_set(moon, now)
+            el.children.namedItem(`moon_${idx}`).textContent = `${ephere.hhmm(hhrise)} - ${ephere.hhmm(hhset)}`;
+            sections[idx].children.namedItem(`moon_${idx}`)
+                .textContent =
+                `Mond\n ${ephere.hhmm(hhrise)} (${(azr * deg).toFixed(0)}°) - ` +
+                `${ephere.hhmm(hhset)}  (${(azs * deg).toFixed(0)}°)`;
+
+            const fmjd = moon.fullmoon(jd);
+            sections[idx].children.namedItem(`moonfm_${idx}`)
+                .textContent = `Nächster Vollmond: ${(ephere.DATE(fmjd)).toLocaleString()}`;
+
+            if (idx = 1 && timeout == null) el.scrollIntoView(false);
+        });
+
+        timeout = setTimeout(() => { requestAnimationFrame(draw) }, 60000);
+    }
+
+    navigator.geolocation.watchPosition(
+        (result) => {
+            lat = result.coords.latitude;
+            lon = result.coords.longitude;
+
+            clearTimeout(timeout);
+            draw();
+            document.forms.data.elements.lat.value = lat.toFixed(3);
+            document.forms.data.elements.lon.value = lon.toFixed(3);
+
+            window.addEventListener('deviceorientation', (e) => {
+                let alpha = 360 - e.alpha;
+                alpha += (alpha < 0) ? 360 : 0;
+                document.forms.data.elements.alpha.value = `${alpha.toFixed(0)}°`
+            })
+        },
+        (error) => {
+            switch (error.code) {
+                case GeolocationPositionError.PERMISSION_DENIED:
+                case GeolocationPositionError.POSITION_UNAVAILABLE:
+                case GeolocationPositionError.TIMEOUT:
+                    console.error(error.code);
+            }
+        }
+    );
+
+
+</script>
+
+</html>

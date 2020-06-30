@@ -3643,8 +3643,11 @@ export const hhmmss = (hhdec) => { return [trunc(hhdec), floor(hhdec % 1 / (1 / 
 const LIGHTSPEED = 299792458; // m/s
 const AU = 149597870700; // m
 export const J2000 = 2451545.0;
+export const J1970 = 2440587.5;
 
-export const JD = (...args) => { if (args.length > 1) args.splice(1, 1, args[1] - 1); return 2440587.5 + Date.UTC(...args) / 86400000; }
+export const JD = (...args) => { if (args.length > 1) args.splice(1, 1, args[1] - 1); return J1970 + Date.UTC(...args) / 86400000; }
+export const DATE = (jd) => { return new Date((Number(jd) - J1970) * 86400000); }
+
 // https://data.iana.org/time-zones/tzdb-2018a/leap-seconds.list
 const JDTT = (jd) => { return jd + (37.0 + 32.184) / 24.0 / 60.0 / 60.0; }
 const JDM = (jd) => { return (jd - J2000) / 365250.0; }
@@ -3718,6 +3721,7 @@ export class CelestialObject {
         return [(sin(H) > 0) ? PI2 - AZ : AZ, AL]
     }
 
+    // Return r(in m), az(in rad), dec(in rad)
     rradec = (jd) => {
         const tt = JDTT(jd);
         const t = JDM(tt);
@@ -3737,7 +3741,7 @@ export class CelestialObject {
         const DEC = asin(sin(B) * cos(EPS) + cos(B) * sin(EPS) * sin(l))
         const RA = atan2(sin(l) * cos(EPS) - tan(B) * sin(EPS), cos(l));
 
-        return [R, RA, DEC];
+        return [R * AU, RA, DEC];
     }
 
     asine(jd, hh, lat, londeg) {
