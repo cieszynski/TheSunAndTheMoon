@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             Uri path = new Uri.Builder()
                     .scheme("https")
                     .authority(WebViewAssetLoader.DEFAULT_DOMAIN)
-                    .appendPath((ver >= 404410000) ? index_html : error_html)
+                    .appendPath(/*(ver >= 404410000) ? index_html : error_html*/index_html )
                     .build();
             mWebView.loadUrl(path.toString());
         }
