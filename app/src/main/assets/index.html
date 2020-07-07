@@ -8,8 +8,21 @@
     <meta name="theme-color" value="white" />
     <!-- <link rel="manifest" href="manifest.webmanifest"> -->
     <style>
+        @font-face {
+            font-family: "material-icons";
+            src: url(data:font/truetype;charset=utf-8;base64,AAEAAAAQAQAABAAARkZUTYP143MAAAEMAAAAHEdERUYARQAlAAABKAAAACRPUy8yPhMahgAAAUwAAABgY21hcDTJJ1cAAAGsAAABamN2dCABmAc2AAADGAAAABBmcGdtU7QvpwAAAygAAAJlZ2FzcAAAABAAAAWQAAAACGdseWYOhFY8AAAFmAAAAWRoZWFkFI7s2wAABvwAAAA2aGhlYQ9YB+sAAAc0AAAAJGhtdHg42QDwAAAHWAAAAEpsb2NhAcACRgAAB6QAAAAobWF4cAEuAHAAAAfMAAAAIG5hbWUOPVfMAAAH7AAAAlZwb3N0YTfhfwAACkQAAADWcHJlcLDyKxQAAAscAAAALgAAAAEAAAAA1e1FuAAAAADS3qPKAAAAANsp+fAAAQAAAAwAAAAcAAAAAgACAAEAEAABABEAEgACAAQAAAACAAAABAOpAZAABQAEBTAFmAAAARwFMAWYAAAD1ABkAhAAAAIABQMAAAAAAAAAAAABEgAAAAQAAAAAAAAAAAAAAACAIADojggAAAAAAAgCACgAAAABAAAAAAAAAAAAAAAgAAEAAAADAAAAAwAAABwAAQAAAAAAZAADAAEAAAAcAAQASAAAAA4ACAACAAYgCiAvIF8l/OiK6I7//wAAIAAgLyBfJfzoiuiO///gA9/f37DaFBeHF4QAAQAAAAAAAAAAAAAAAAAAAAABBgAAAQAAAAAAAAABAgAAAAIAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdgCwAK4ApAEBAEQFEbAALLAAE0uwTFBYsEp2WbAAIz8YsAYrWD1ZS7BMUFh9WSDUsAETLhgtsAEsINqwDCstsAIsS1JYRSNZIS2wAyxpGCCwQFBYIbBAWS2wBCywBitYISMheljdG81ZG0tSWFj9G+1ZGyMhsAUrWLBGdllY3RvNWVlZGC2wBSwNXFotsAYssSIBiFBYsCCIXFwbsABZLbAHLLEkAYhQWLBAiFxcG7AAWS2wCCwSESA5Ly2wCSwgfbAGK1jEG81ZILADJUkjILAEJkqwAFBYimWKYSCwAFBYOBshIVkbiophILAAUlg4GyEhWVkYLbAKLLAGK1ghEBsQIVktsAssINKwDCstsAwsIC+wBytcWCAgRyNGYWogWCBkYjgbISFZGyFZLbANLBIRICA5LyCKIEeKRmEjiiCKI0qwAFBYI7AAUliwQDgbIVkbI7AAUFiwQGU4GyFZWS2wDiywBitYPdYYISEbINaKS1JYIIojSSCwAFVYOBshIVkbISFZWS2wDywjINYgL7AHK1xYIyBYS1MbIbABWViKsAQmSSOKIyCKSYojYTgbISEhIVkbISEhISFZLbAQLCDasBIrLbARLCDSsBIrLbASLCAvsAcrXFggIEcjRmFqiiBHI0YjYWpgIFggZGI4GyEhWRshIVktsBMsIIogiocgsAMlSmQjigewIFBYPBvAWS2wFCyzAEABQEJCAUu4EABjAEu4EABjIIogilVYIIogilJYI2IgsAAjQhtiILABI0JZILBAUliyACAAQ2NCsgEgAUNjQrAgY7AZZRwhWRshIVktsBUssAFDYyOwAENjIy0AAAAAAQAB//8ADwACAEQAAAJkBVUAAwAHAC6xAQAvPLIHBAbtMrEGBdw8sgMCBu0yALEDAC88sgUEBu0ysgcGB/w8sgECBu0yMxEhESUhESFEAiD+JAGY/mgFVfqrRATNAAAAAQAAAAAAAAAAAAAAADEAAAEArAFUB1QHAAAKACQAAbALL7AJ1rAIzbAIELEFASuwBM2xDAErsQUIERKwATkAMDETCQEhESERIREhEawDVANU/wD+WP6o/lgEAAMA/QD9VAIA/gACrAADAKwArAdUB1QABwALAA8AXACwBy+wCM2wCy+wDM2wDy+wA80BsBAvsAHWsAjNsAwysAgQsQkBK7ANMrAFzbERASuxCAERErECBzk5sQUJERKxAwY5OQCxCwgRErEFADk5sQ8MERKxBAE5OTAxEhAAIAAQACABMxEjNTM1I6wB9ALAAfT+DP1AAQyoqKioAqACwAH0/gz9QP4MAagCAKysAAAAAAEAAAABAtDAUdzwXw889QAfCAAAAAAA0t6jygAAAADbKfnwAAAAAAdUB1QAAAAIAAIAAAAAAAAAAQAACAL/2AAACAAAAAAAB1QAAQAAAAAAAAAAAAAAAAAAABIC7ABEAAAAAAKqAAADqgAAB1QAAAOqAAAHVAAAAnEAAAHVAAABOAAAATgAAADqAAABdwAAAGgAAAF3AAAB1QAAB9AAAAgAAKwArAAAAAAALAAsACwALAAsACwALAAsACwALAAsACwALAAsACwALAA0AGAAsgABAAAAEwAQAAMAAAAAAAIAAQACABYAAAEAAFwAAAAAAAAADACWAAMAAQQJAAAAYAAAAAMAAQQJAAEAHABgAAMAAQQJAAIADgB8AAMAAQQJAAMAUgCKAAMAAQQJAAQALADcAAMAAQQJAAUAGgEIAAMAAQQJAAYAKgEiAAMAAQQJAMgAFgFMAAMAAQQJAMkAMAFiAAMAAQQJAMoADgGSAAMAAQQJAMsABgGgAAMAAQQJ2QMAGgGmAEMAbwBwAHkAcgBpAGcAaAB0ACAAMgAwADEANQAgAEcAbwBvAGcAbABlACwAIABJAG4AYwAuACAAQQBsAGwAIABSAGkAZwBoAHQAcwAgAFIAZQBzAGUAcgB2AGUAZAAuAE0AYQB0AGUAcgBpAGEAbAAgAEkAYwBvAG4AcwBSAGUAZwB1AGwAYQByAEYAbwBuAHQARgBvAHIAZwBlACAAMgAuADAAIAA6ACAATQBhAHQAZQByAGkAYQBsACAASQBjAG8AbgBzACAAOgAgADgALQAyAC0AMgAwADEANgBNAGEAdABlAHIAaQBhAGwAIABJAGMAbwBuAHMAIABSAGUAZwB1AGwAYQByAFYAZQByAHMAaQBvAG4AIAAxAC4AMAAxADEATQBhAHQAZQByAGkAYQBsAEkAYwBvAG4AcwAtAFIAZQBnAHUAbABhAHIAVwBlAGIAZgBvAG4AdAAgADEALgAwAFQAdQBlACAASgB1AGwAIAAgADcAIAAxADAAOgAwADcAOgA0ADUAIAAyADAAMgAwAGQAZQBmAGEAdQBsAHQAbABlAG8ARgBvAG4AdAAgAFMAcQB1AGkAcgByAGUAbAAAAAIAAAAAAAD6JADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAEwAAAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREBEgETBmdseXBoMQZnbHlwaDIHdW5pMjAwMAd1bmkyMDAxB3VuaTIwMDIHdW5pMjAwMwd1bmkyMDA0B3VuaTIwMDUHdW5pMjAwNgd1bmkyMDA3B3VuaTIwMDgHdW5pMjAwOQd1bmkyMDBBB3VuaTIwMkYHdW5pMjA1Rgd1bmkyNUZDB3VuaUU4OEEHdW5pRTg4RQAAuAH/hbABjQBLsAhQWLEBAY5ZsUYGK1ghsBBZS7AUUlghsIBZHbAGK1xYWbAUKwAA) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+
+        }
+
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        *:focus {
+            outline: none;
         }
 
         html,
@@ -21,6 +34,11 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        body {
+            /* opacity: 0; */
+            transition: opacity .3s;
             background-color: #edf0f2;
         }
 
@@ -54,26 +72,35 @@
         }
 
         label.rail {
-            display: inline-block;
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             height: 56px;
             width: 100%;
-            text-align: center;
-            text-decoration: none;
             color: #b4c1cc;
         }
 
-        label.rail::before {
-            content: "";
-            display: inline-block;
-            vertical-align: text-bottom;
-            height: 100%;
+        span.icon {
+            font-family: 'material-icons';
+            font-size: 22px;
+            display: block;
         }
 
-        section.card {
+        div.card,
+        form.card {
             border-radius: 8px;
             background-color: #fff;
             margin: 8px;
             overflow: hidden;
+        }
+
+        div.card {
+            padding: 16px;
+        }
+
+        hr {
+            border: 1px solid #b4c1cc;
         }
 
         canvas {
@@ -97,9 +124,9 @@
             }
         }
 
-        input[name="tab"]:nth-of-type(1):checked~* label.tab:nth-of-type(1),
-        input[name="tab"]:nth-of-type(2):checked~* label.tab:nth-of-type(2) {
-            color: red;
+        input[name="tab"]:nth-of-type(1):checked~* label.rail:nth-of-type(1),
+        input[name="tab"]:nth-of-type(2):checked~* label.rail:nth-of-type(2) {
+            color: #f9aa33;
         }
 
         input[name="tab"]:nth-of-type(1):checked~* article,
@@ -125,11 +152,11 @@
             padding-top: 60%;
         }
 
-        div#info {
+        div.info {
             display: flex;
         }
 
-        div#info label {
+        div.info label {
             margin: 8px;
             text-align: center;
             display: inline-block;
@@ -162,12 +189,48 @@
             text-align: center;
         }
 
+        .center {
+            text-align: center;
+            width: 56px;
+        }
+
         .right {
             text-align: right;
         }
+
+        dialog {
+            text-align: center;
+            border: none;
+            box-shadow: 10px 5px 5px gray;
+        }
     </style>
     <template>
-
+        <form class="card item">
+            <table>
+                <tbody>
+                    <tr>
+                        <td rowspan="3" class="center">
+                            <output name="day"></output>
+                            <output name="month"></output>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">Sonne</td>
+                        <td><output name="sun_rise">--:--</output></td>
+                        <td>(<output name="sun_rise_az"></output>°)</td>
+                        <td><output name="sun_set">--:--</output></td>
+                        <td>(<output name="sun_set_az"></output>°)</td>
+                    </tr>
+                    <tr>
+                        <td class="right">Mond</td>
+                        <td><output name="moon_rise">--:--</output></td>
+                        <td>(<output name="moon_rise_az"></output>°)</td>
+                        <td><output name="moon_set">--:--</output></td>
+                        <td>(<output name="moon_set_az"></output>°)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
     </template>
 </head>
 
@@ -177,107 +240,55 @@
     <input type="radio" name="tab" id="b" hidden />
     <main>
         <article>
-            <section class="card">
+            <form class="card">
                 <div class="aspect-ratio">
                     <canvas></canvas>
                 </div>
-                <div id="info">
-                    <label>lat: <output name="lat" form="data"></output>°</label>
-                    <label>lon: <output name="lon" form="data"></output>°</label>
+                <div class="info">
+                    <label>Lat: <output name="lat" form="data"></output>°</label>
+                    <label>Lon: <output name="lon" form="data"></output>°</label>
                     <label>N: <output name="alpha" form="data"></output>°</label>
                 </div>
-            </section>
-            <section class="card item">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td rowspan="3">
-                                <output name="day"></output>
-                                <output name="month"></output>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right">Sonne</td>
-                            <td><output name="sun_rise">--:--</output></td>
-                            <td>(<output name="sun_rise_az"></output>°)</td>
-                            <td><output name="sun_set">--:--</output></td>
-                            <td>(<output name="sun_set_az"></output>°)</td>
-                        </tr>
-                        <tr>
-                            <td class="right">Mond</td>
-                            <td><output name="moon_rise">--:--</output></td>
-                            <td>(<output name="moon_rise_az"></output>°)</td>
-                            <td><output name="moon_set">--:--</output></td>
-                            <td>(<output name="moon_set_az"></output>°)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-            <section class="card item">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td rowspan="3">
-                                <output name="day"></output>
-                                <output name="month"></output>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right">Sonne</td>
-                            <td><output name="sun_rise">--:--</output></td>
-                            <td>(<output name="sun_rise_az"></output>°)</td>
-                            <td><output name="sun_set">--:--</output></td>
-                            <td>(<output name="sun_set_az"></output>°)</td>
-                        </tr>
-                        <tr>
-                            <td class="right">Mond</td>
-                            <td><output name="moon_rise">--:--</output></td>
-                            <td>(<output name="moon_rise_az"></output>°)</td>
-                            <td><output name="moon_set">--:--</output></td>
-                            <td>(<output name="moon_set_az"></output>°)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-            <section class="card item">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td rowspan="3">
-                                <output name="day"></output>
-                                <output name="month"></output>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right">Sonne</td>
-                            <td><output name="sun_rise">--:--</output></td>
-                            <td>(<output name="sun_rise_az"></output>°)</td>
-                            <td><output name="sun_set">--:--</output></td>
-                            <td>(<output name="sun_set_az"></output>°)</td>
-                        </tr>
-                        <tr>
-                            <td class="right">Mond</td>
-                            <td><output name="moon_rise">--:--</output></td>
-                            <td>(<output name="moon_rise_az"></output>°)</td>
-                            <td><output name="moon_set">--:--</output></td>
-                            <td>(<output name="moon_set_az"></output>°)</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                <div class="info">
+                    <label>Vollmond: <output name="fullmoon" form="data"></output></label>
+                </div>
+            </form>
         </article>
         <aside>
-            aside
+            <div class="card">
+                <picture>
+                    <source srcset="ic_launcher192.png" media="(min-width: 800px)">
+                    <source srcset="ic_launcher144.png" media="(min-width: 600px)">
+                    <img src="ic_launcher96.png" alt="">
+                </picture>
+                <p>Die Sonne &amp; Der Mond</p>
+                <p>Stephan Cieszynski (dev@cieszynski.de)</p>
+                <hr />
+                <p>Diese Anwendung zeigt an wann und wo am derzeitigen Ort die Sonne und der Mond auf- und untergehen.
+                    Dazu werden neben den Zeiten (Ortszeit) auch der Winkel vom Kompass angezeigt, so dass mit der Anwendung die
+                    Position des Auf- und Untergangs am Horizont vorhergesagt werden kann. Diese Angaben sind insbesondere für die 
+                    Landschaftsfotografie interessant.
+                </p>
+                <P>Die Angaben erfolgen für den aktuellen Tag und die nächsten zwei Wochen.</P>
+                <p>Die Anwendung funktioniert offline und enthält keine Werbung oder In-App-Käufe.
+                    Als Berechtigung ist lediglich der Zugriff auf Geokoordinaten notwendig.
+                </p>
+            </div>
+            <div class="card">Version 1.0</div>
         </aside>
     </main>
     <nav class="rail">
-        <label for="a" class="rail">start</label>
-        <label for="b" class="rail">stop</label>
+        <label for="a" class="rail"><span class="icon">&#xe88a;</span><span>Home</span></label>
+        <label for="b" class="rail"><span class="icon">&#xe88e;</span><span>Info</span></label>
     </nav>
     <dialog>
-
+        <form method="dialog">
+            <p>Keine Koordinaten abrufbar</p>
+            <button>OK</button>
+        </form>
     </dialog>
 </body>
+
 <script src="epherem.js"></script>
 <script src="sun.js"></script>
 <script src="moon.js"></script>
@@ -285,7 +296,8 @@
     'use strict';
     const canvas = document.querySelector('canvas');
     const dialog = document.querySelector('dialog');
-    const main = document.querySelector('main');
+    const article = document.querySelector('article');
+    const template = document.querySelector('template');
     const output = document.forms.data.elements;
 
     const month = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
@@ -293,15 +305,14 @@
     const sun = new Sun();
     const moon = new Moon();
 
+    let dirty = false;
     let timeout = null;
-    let lat = null;
-    let lon = null;
+    let lat = 0;
+    let lon = 0;
 
     const draw_sun = function (ctx, w, h, jd) {
         ctx.save();
-        //const [d, ra, dec] = sun.rradec(jd);
         const rradec = sun.rradec(jd);
-        //const [az, al] = sun.azal(jd, lat * rad, lon * rad, ra, dec);
         const azal = sun.azal(jd, lat * rad, lon * rad, rradec.ra, rradec.dec);
         h -= 15 // skylines height
         let r = 15, s1 = 5, s2 = 20;
@@ -327,9 +338,7 @@
 
     const draw_moon = function (ctx, w, h, jd) {
         ctx.save();
-        //const [d, ra, dec] = moon.rradec(jd);
         const rradec = moon.rradec(jd);
-        //const [az, al] = moon.azal(jd, lat * rad, lon * rad, ra, dec);
         const azal = moon.azal(jd, lat * rad, lon * rad, rradec.ra, rradec.dec);
         const age = moon.age(jd);
         h -= 15 // skylines height
@@ -348,7 +357,7 @@
         ctx.lineCap = 'round';
         ctx.strokeStyle = 'white';
         ctx.beginPath();
-        ctx.arc(x, y, 30, -PI / 2, PI / 2, (age <= 0.5))
+        ctx.arc(x, y, r, -PI / 2, PI / 2, (age <= 0.5))
         ctx.bezierCurveTo(x + a, y + r + s / 2, x + a, y - r - s / 2, x, y - r);
         ctx.closePath();
         ctx.stroke();
@@ -357,11 +366,8 @@
     }
 
     const draw_sky = function (ctx, w, h, jd) {
-        ctx.save();
         const sun = new Sun();
-        //const [d, ra, dec] = sun.rradec(jd);
         const rradec = sun.rradec(jd);
-        // const [az, al] = sun.azal(jd, lat * rad, lon * rad, ra, dec);
         const azal = sun.azal(jd, lat * rad, lon * rad, rradec.ra, rradec.dec);
 
         if (azal.al * deg > -6 && azal.al * deg < 6) {
@@ -380,19 +386,16 @@
         }
 
         ctx.fillRect(0, 0, w, h);
-        ctx.restore()
     }
 
     const img = new Image();
     img.src = 'skyline.svg';
 
     const draw_skyline = function (ctx, w, h) {
-        ctx.save();
         ctx.drawImage(img, 0, 20, w, h);
         img.onload = function () {
             ctx.drawImage(img, 0, 20, w, h);
         }
-        ctx.restore()
     }
 
     const get_rise_set = function (o, i) {
@@ -447,6 +450,9 @@
     }
 
     function draw() {
+        output.namedItem("lat").value = lat.toFixed(2);
+        output.namedItem("lon").value = lon.toFixed(2);
+
         const now = new Date();
         const jd = JD(
             now.getUTCFullYear(),
@@ -462,63 +468,45 @@
         const height = canvas.clientHeight;
         canvas.height = height;
 
-        ctx.clearRect(0, 0, width, height);
-
         draw_sky(ctx, width, height, jd);
         draw_moon(ctx, width, height, jd);
         draw_sun(ctx, width, height, jd);
         draw_skyline(ctx, width, height);
 
-        const items = main.querySelectorAll('section.item');
-        for (let i = 0; i < items.length; i++) {
-            const output = items[i].querySelectorAll('output');
-            const rs_sun = get_rise_set(sun, i);
-            const rs_moon = get_rise_set(moon, i);
+        if (dirty) {
+            const items = article.querySelectorAll('form.item');
+            for (let i = 0; i < items.length; i++) {
+                const rs_sun = get_rise_set(sun, i);
+                const rs_moon = get_rise_set(moon, i);
 
-            for (let j = 0; j < output.length; j++) {
-                switch (output[j].name) {
-                    case "day": output[j].value = rs_sun.day.getDate();
-                        break;
-                    case "month": output[j].value = month[rs_sun.day.getMonth()];
-                        break;
-                    case "sun_rise": output[j].value = hhmm(rs_sun.hhrise);
-                        break;
-                    case "sun_rise_az": output[j].value = (rs_sun.azr * deg).toFixed(0);
-                        break;
-                    case "sun_set": output[j].value = hhmm(rs_sun.hhset);
-                        break;
-                    case "sun_set_az": output[j].value = (rs_sun.azs * deg).toFixed(0);
-                        break;
-                    case "moon_rise": output[j].value = hhmm(rs_moon.hhrise);
-                        break;
-                    case "moon_rise_az": output[j].value = (rs_moon.azr * deg).toFixed(0);
-                        break;
-                    case "moon_set": output[j].value = hhmm(rs_moon.hhset);
-                        break;
-                    case "moon_set_az": output[j].value = (rs_moon.azs * deg).toFixed(0);
-                        break;
-                }
-            }
-        };
+                items[i].elements.namedItem('day').value = rs_sun.day.getDate();
+                items[i].elements.namedItem('month').value = month[rs_sun.day.getMonth()];
+                items[i].elements.namedItem('sun_rise').value = hhmm(rs_sun.hhrise);
+                items[i].elements.namedItem('sun_rise_az').value = (rs_sun.azr * deg).toFixed(0);
+                items[i].elements.namedItem('sun_set').value = hhmm(rs_sun.hhset);
+                items[i].elements.namedItem('sun_set_az').value = (rs_sun.azs * deg).toFixed(0);
+                items[i].elements.namedItem('moon_rise').value = (rs_moon.hhrise) ? hhmm(rs_moon.hhrise) : '--:--';
+                items[i].elements.namedItem('moon_rise_az').value = (rs_moon.hhrise) ? (rs_moon.azr * deg).toFixed(0) : '--';
+                items[i].elements.namedItem('moon_set').value = (rs_moon.hhset) ? hhmm(rs_moon.hhset) : '--:--';
+                items[i].elements.namedItem('moon_set_az').value = (rs_moon.hhset) ? (rs_moon.azs * deg).toFixed(0) : '--';;
+            };
+        }
 
-        timeout = setTimeout(function () { requestAnimationFrame(draw) }, 60000);
+        const fm = DATE(moon.fullmoon(jd));
+        output.namedItem("fullmoon").value = `${('0' + fm.getDate()).slice(-2)}.${('0' + (fm.getMonth() + 1)).slice(-2)}.${fm.getFullYear()} - ${('0' + fm.getHours()).slice(-2)}:${('0' + fm.getMinutes()).slice(-2)}`//new Intl.DateTimeFormat({dateStyle: 'full'}).format(fullmoon);
+        document.body.style.opacity = 1;
     }
 
     navigator.geolocation.watchPosition(
         function (result) {
+            dirty = (Math.abs(lat - result.coords.latitude) > 1 || (Math.abs(lon - result.coords.longitude) > 1));
             lat = result.coords.latitude;
             lon = result.coords.longitude;
-            output.namedItem("lat").value = lat.toFixed(2);
-            output.namedItem("lon").value = lon.toFixed(2);
 
-            clearTimeout(timeout);
-            draw();
-
-            window.addEventListener('deviceorientation', function (e) {
-                let alpha = 360 - e.alpha;
-                alpha += (alpha < 0) ? 360 : 0;
-                output.namedItem("alpha").value = alpha.toFixed(2);
-            })
+            if (dialog.open)
+                dialog.close();
+            //console.log(8)
+            requestAnimationFrame(draw);
         },
         function (error) {
             switch (error.code) {
@@ -527,8 +515,25 @@
                 case 2: // GeolocationPositionError.TIMEOUT:
                     console.error(error.code);
             }
+
+            if (!dialog.open)
+                dialog.showModal();
+            dirty = true;
+            requestAnimationFrame(draw);
         }
     );
+
+    for (let k = 0; k < 14; k++) {
+        article.appendChild(template.content.cloneNode(true));
+    }
+
+
+
+    window.addEventListener('deviceorientation', function (e) {
+        let alpha = 360 - e.alpha;
+        alpha += (alpha < 0) ? 360 : 0;
+        output.namedItem("alpha").value = alpha.toFixed(2);
+    })
 </script>
 
 </html>

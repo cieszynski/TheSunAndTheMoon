@@ -2,13 +2,17 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="colorPrimary">#ece9d5</item>-->
-        <!-- Customize your theme here. -->
-         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-    </style>
-
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/splash</item>
+        <!--colorPrimary – The color of the app bar.-->
+        <item name="colorPrimary">#d2dbe0</item>
+        <!--colorPrimaryDark – The color of the status bar and contextual app bars; this is normally a dark version of colorPrimary.-->
+        <item name="colorPrimaryDark">#d2dbe0</item>
+        <!-- colorAccent – The color of UI controls such as check boxes, radio buttons, and edit text boxes. -->
+        <!-- android:windowBackground – The color of the screen background. -->
+        <item name="android:windowBackground">#d2dbe0</item>
+        <!-- textColorPrimary – The color of UI text in the app bar. -->
+        <!-- statusBarColor – The color of the status bar. -->
+        <item name="android:statusBarColor">#d2dbe0</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- navigationBarColor – The color of the navigation bar. -->
     </style>
 </resources>

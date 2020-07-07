@@ -4,12 +4,14 @@ import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -24,10 +26,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewAssetLoader;
-import androidx.webkit.WebViewCompat;
-import androidx.webkit.WebViewFeature;
+import androidx.webkit.WebViewClientCompat;
 
 import java.util.List;
 
@@ -43,44 +43,56 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String index_html = "index.html";// getString(R.string.index_html);
-        String error_html = getString(R.string.error_html);
-
-        PackageInfo webViewPackageInfo = WebViewCompat.getCurrentWebViewPackage(this);
-        double ver = (webViewPackageInfo == null) ? 0.0 : webViewPackageInfo.versionCode;
+        // PackageInfo webViewPackageInfo = WebViewCompat.getCurrentWebViewPackage(this);
+        // double ver = (webViewPackageInfo == null) ? 0.0 : webViewPackageInfo.versionCode;
         // 404413800    // 81.04044.138
         // 410301410; //83.0.4103.14
         mWebView = new WebView(this);
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setBackgroundColor(Color.TRANSPARENT);
         mWebView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
-        mWebView.addJavascriptInterface(this, "android");
+        // prevent crash on long clicks
+        mWebView.setLongClickable(false);
+        mWebView.setHapticFeedbackEnabled(false);
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        // mWebView.addJavascriptInterface(this, "android");
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setUseWideViewPort(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setDatabaseEnabled(true);
+        //webSettings.setDomStorageEnabled(true);
+        //webSettings.setDatabaseEnabled(true);
         webSettings.setJavaScriptEnabled(true);
 
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
+/*        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
             // https://stackoverflow.com/a/61643614
             WebSettingsCompat.setForceDarkStrategy(webSettings, WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
-        }
+        }*/
 
-        mWebView.setWebViewClient(new WebViewClient() {
+        mWebView.setWebViewClient(new WebViewClientCompat() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                Log.d("XXX", "onPageStarted");
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d("XXX", "onPageFinished");
+            }
+
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view,
                                                               WebResourceRequest request) {
-                if (request.getUrl().toString().endsWith(".ico")) {
+                String filename = request.getUrl().getLastPathSegment();
+                if (filename.endsWith(".ico")) {
                     return new WebResourceResponse("image/png", null, null);
                 }
-
-                // https://stackoverflow.com/a/60724359
                 WebResourceResponse intercepted = mAssetLoader.shouldInterceptRequest(request.getUrl());
-                if (request.getUrl().toString().endsWith("js")) {
-                    if (intercepted != null) {
-                        intercepted.setMimeType("application/javascript");
-                    }
-                }
                 return intercepted;
             }
         });
@@ -109,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             Uri path = new Uri.Builder()
                     .scheme("https")
                     .authority(WebViewAssetLoader.DEFAULT_DOMAIN)
-                    .appendPath(/*(ver >= 404410000) ? index_html : error_html*/index_html )
+                    .appendPath("index.html")
                     .build();
             mWebView.loadUrl(path.toString());
         }
