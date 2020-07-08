@@ -5,9 +5,15 @@
     <title>The Sun &amp; The Moon</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" value="white" />
-    <!-- <link rel="manifest" href="manifest.webmanifest"> -->
+
     <style>
+        @font-face {
+            font-family: "roboto";
+            font-weight: normal;
+            font-style: normal;
+            src: url('Roboto-Regular.ttf') format('truetype');
+        }
+
         @font-face {
             font-family: "material-icons";
             src: url(data:font/truetype;charset=utf-8;base64,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Xw889QAfCAAAAAAA0t6jygAAAADbKfnwAAAAAAdUB1QAAAAIAAIAAAAAAAAAAQAACAL/2AAACAAAAAAAB1QAAQAAAAAAAAAAAAAAAAAAABIC7ABEAAAAAAKqAAADqgAAB1QAAAOqAAAHVAAAAnEAAAHVAAABOAAAATgAAADqAAABdwAAAGgAAAF3AAAB1QAAB9AAAAgAAKwArAAAAAAALAAsACwALAAsACwALAAsACwALAAsACwALAAsACwALAA0AGAAsgABAAAAEwAQAAMAAAAAAAIAAQACABYAAAEAAFwAAAAAAAAADACWAAMAAQQJAAAAYAAAAAMAAQQJAAEAHABgAAMAAQQJAAIADgB8AAMAAQQJAAMAUgCKAAMAAQQJAAQALADcAAMAAQQJAAUAGgEIAAMAAQQJAAYAKgEiAAMAAQQJAMgAFgFMAAMAAQQJAMkAMAFiAAMAAQQJAMoADgGSAAMAAQQJAMsABgGgAAMAAQQJ2QMAGgGmAEMAbwBwAHkAcgBpAGcAaAB0ACAAMgAwADEANQAgAEcAbwBvAGcAbABlACwAIABJAG4AYwAuACAAQQBsAGwAIABSAGkAZwBoAHQAcwAgAFIAZQBzAGUAcgB2AGUAZAAuAE0AYQB0AGUAcgBpAGEAbAAgAEkAYwBvAG4AcwBSAGUAZwB1AGwAYQByAEYAbwBuAHQARgBvAHIAZwBlACAAMgAuADAAIAA6ACAATQBhAHQAZQByAGkAYQBsACAASQBjAG8AbgBzACAAOgAgADgALQAyAC0AMgAwADEANgBNAGEAdABlAHIAaQBhAGwAIABJAGMAbwBuAHMAIABSAGUAZwB1AGwAYQByAFYAZQByAHMAaQBvAG4AIAAxAC4AMAAxADEATQBhAHQAZQByAGkAYQBsAEkAYwBvAG4AcwAtAFIAZQBnAHUAbABhAHIAVwBlAGIAZgBvAG4AdAAgADEALgAwAFQAdQBlACAASgB1AGwAIAAgADcAIAAxADAAOgAwADcAOgA0ADUAIAAyADAAMgAwAGQAZQBmAGEAdQBsAHQAbABlAG8ARgBvAG4AdAAgAFMAcQB1AGkAcgByAGUAbAAAAAIAAAAAAAD6JADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAEwAAAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREBEgETBmdseXBoMQZnbHlwaDIHdW5pMjAwMAd1bmkyMDAxB3VuaTIwMDIHdW5pMjAwMwd1bmkyMDA0B3VuaTIwMDUHdW5pMjAwNgd1bmkyMDA3B3VuaTIwMDgHdW5pMjAwOQd1bmkyMDBBB3VuaTIwMkYHdW5pMjA1Rgd1bmkyNUZDB3VuaUU4OEEHdW5pRTg4RQAAuAH/hbABjQBLsAhQWLEBAY5ZsUYGK1ghsBBZS7AUUlghsIBZHbAGK1xYWbAUKwAA) format('truetype');
@@ -17,6 +23,7 @@
         }
 
         * {
+            font-family: "roboto";
             box-sizing: border-box;
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         }
@@ -34,11 +41,6 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-        }
-
-        body {
-            /* opacity: 0; */
-            transition: opacity .3s;
             background-color: #edf0f2;
         }
 
@@ -55,9 +57,9 @@
             position: absolute;
             opacity: 0;
             top: 100vh;
+            left: 0;
             transition: top .3s, opacity .3s;
             will-change: top, opacity;
-            left: 0;
             width: 100%;
             height: 100%;
         }
@@ -69,6 +71,7 @@
             display: flex;
             flex-direction: row;
             align-content: space-between;
+            justify-content: center;
         }
 
         label.rail {
@@ -78,17 +81,20 @@
             align-items: center;
             height: 56px;
             width: 100%;
+            max-width: 144px;
             color: #b4c1cc;
         }
 
-        span.icon {
-            font-family: 'material-icons';
-            font-size: 22px;
-            display: block;
+        .material-icon {
+            font: 20px "material-icons";
+            display: inline-block;
         }
 
-        div.card,
-        form.card {
+        .rail-text {
+            display: inline-block;
+        }
+
+        .card {
             border-radius: 8px;
             background-color: #fff;
             margin: 8px;
@@ -97,6 +103,10 @@
 
         div.card {
             padding: 16px;
+        }
+
+        .item {
+            display: flex;
         }
 
         hr {
@@ -112,38 +122,6 @@
             height: 100%;
         }
 
-        @media (orientation: portrait) and (min-width: 420px) {
-            body {
-                flex-direction: row-reverse;
-            }
-
-            nav.rail {
-                width: 72px;
-                height: 100vh;
-                flex-direction: column;
-            }
-        }
-
-        input[name="tab"]:nth-of-type(1):checked~* label.rail:nth-of-type(1),
-        input[name="tab"]:nth-of-type(2):checked~* label.rail:nth-of-type(2) {
-            color: #f9aa33;
-        }
-
-        input[name="tab"]:nth-of-type(1):checked~* article,
-        input[name="tab"]:nth-of-type(2):checked~* aside {
-            opacity: 1;
-            top: 0;
-        }
-
-        @media (min-width: 720px) {
-            body {
-                flex-direction: row-reverse;
-            }
-
-            nav.rail {
-                width: 144px;
-            }
-        }
 
         .aspect-ratio {
             position: relative;
@@ -163,10 +141,6 @@
             width: 100%;
         }
 
-        .item {
-            display: flex;
-            padding: 16px;
-        }
 
         table {
             width: 100%;
@@ -203,6 +177,92 @@
             border: none;
             box-shadow: 10px 5px 5px gray;
         }
+
+        input[name="rail"]:nth-of-type(2):checked~* label.rail:nth-of-type(2),
+        input[name="rail"]:nth-of-type(1):checked~* label.rail:nth-of-type(1) {
+            color: #f9aa33;
+        }
+
+        input[name="rail"]:nth-of-type(2):checked~* aside,
+        input[name="rail"]:nth-of-type(1):checked~* article {
+            opacity: 1;
+            top: 0;
+        }
+
+        @media (orientation: landscape),
+        (min-width: 800px) {
+            body {
+                flex-direction: row-reverse;
+            }
+
+            nav.rail {
+                width: 56px;
+                height: 100vh;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .rail-text {
+                display: none;
+            }
+        }
+
+        @media (min-width: 800px) {
+            nav.rail {
+                width: 72px;
+            }
+
+            .card {
+                max-width: 800px;
+                margin: 8px auto;
+            }
+        }
+
+        @media (min-width: 1116px) {
+            nav.rail {
+                width: 300px;
+                padding: 16px;
+            }
+
+            label.rail {
+                display: inline-flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .material-icon {
+                width: 36px;
+            }
+
+            .rail-text {
+                display: inline-block;
+            }
+        }
+
+        @keyframes slidein {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        dialog.busy {
+            padding: 4px;
+            top: calc(50vh - 25px);
+            width: 50px;
+            height: 50px;
+            animation: .8s infinite linear slidein;
+            box-shadow: 0px 0px 10px;
+            border-radius: 50px;
+            border: 10px solid #fff;
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            background-image: linear-gradient(#fff, #fff), radial-gradient(circle at top left, #fff, #fff 50%, #344955 50%, #344955);
+        }
     </style>
     <template>
         <form class="card item">
@@ -236,8 +296,8 @@
 
 <body>
     <form id="data"></form>
-    <input type="radio" name="tab" id="a" hidden checked />
-    <input type="radio" name="tab" id="b" hidden />
+    <input type="radio" name="rail" id="a" hidden checked />
+    <input type="radio" name="rail" id="b" hidden />
     <main>
         <article>
             <form class="card">
@@ -262,30 +322,40 @@
                     <img src="ic_launcher96.png" alt="">
                 </picture>
                 <p>Die Sonne &amp; Der Mond</p>
-                <p>Stephan Cieszynski (dev@cieszynski.de)</p>
+                <p>Stephan Cieszynski (developer@cieszynski.de)</p>
                 <hr />
-                <p>Diese Anwendung zeigt an wann und wo am derzeitigen Ort die Sonne und der Mond auf- und untergehen.
-                    Dazu werden neben den Zeiten (Ortszeit) auch der Winkel vom Kompass angezeigt, so dass mit der Anwendung die
-                    Position des Auf- und Untergangs am Horizont vorhergesagt werden kann. Diese Angaben sind insbesondere für die 
-                    Landschaftsfotografie interessant.
+                <p>Mit dieser Anwendung ist es möglich, weltweit die Zeiten von Sonnenaufgang, Sonnenuntergang,
+                    Mondaufgang und Monduntergang am jeweiligen Standort zu ermitteln. Zusätzlich zu den Zeiten
+                    (Ortszeit) wird auch die Richtung am Horizont angezeigt, in der die Sonne oder der Mond auf- bzw.
+                    untergeht - besonders interessant für die Landschaftsfotografie. Norden ist bei 0° (Ausrichtung vom
+                    Gerät ist herstellerabhängig).
                 </p>
-                <P>Die Angaben erfolgen für den aktuellen Tag und die nächsten zwei Wochen.</P>
+                <P>Alle Angaben erfolgen für den aktuellen Tag und die nächsten zwei Wochen. Eine zeitliche Beschränkung
+                    hat die Anwendung nicht.
+                </P>
                 <p>Die Anwendung funktioniert offline und enthält keine Werbung oder In-App-Käufe.
-                    Als Berechtigung ist lediglich der Zugriff auf Geokoordinaten notwendig.
+                    Als Berechtigung ist lediglich der Zugriff auf den Standort notwendig, was beim ersten Start der
+                    Anwendung abgefragt wird.
                 </p>
             </div>
             <div class="card">Version 1.0</div>
         </aside>
     </main>
     <nav class="rail">
-        <label for="a" class="rail"><span class="icon">&#xe88a;</span><span>Home</span></label>
-        <label for="b" class="rail"><span class="icon">&#xe88e;</span><span>Info</span></label>
+        <label for="a" class="rail"><span class="material-icon">&#xe88a;</span><span
+                class="rail-text">Home</span></label>
+        <label for="b" class="rail"><span class="material-icon">&#xe88e;</span><span
+                class="rail-text">Info</span></label>
     </nav>
     <dialog>
         <form method="dialog">
-            <p>Keine Koordinaten abrufbar</p>
+            <p>Kein Standort abrufbar</p>
             <button>OK</button>
         </form>
+    </dialog>
+
+    <dialog class="busy rounded-corners-gradient-borders" open>
+
     </dialog>
 </body>
 
@@ -296,6 +366,7 @@
     'use strict';
     const canvas = document.querySelector('canvas');
     const dialog = document.querySelector('dialog');
+    const busy = document.querySelector('dialog.busy');
     const article = document.querySelector('article');
     const template = document.querySelector('template');
     const output = document.forms.data.elements;
@@ -309,6 +380,7 @@
     let timeout = null;
     let lat = 0;
     let lon = 0;
+    let today = new Date();
 
     const draw_sun = function (ctx, w, h, jd) {
         ctx.save();
@@ -316,8 +388,8 @@
         const azal = sun.azal(jd, lat * rad, lon * rad, rradec.ra, rradec.dec);
         h -= 15 // skylines height
         let r = 15, s1 = 5, s2 = 20;
-        let x = (/* PI * 0.5 <= az && az <= PI * 1.5 */1) ? (w / 2) - (cos(azal.az - 90 * rad) * (w / 2 - (r + s2))) : (r + s2);
-        let y = (/* azal.al >= 0 */1) ? h - (r + s2) - ((h - 2 * (r + s2)) / 90 * azal.al * deg) : h - (r + s2);
+        let x = (w / 2) - (cos(azal.az - 90 * rad) * (w / 2 - (r + s2)));
+        let y = h - (r + s2) - ((h - 2 * (r + s2)) / 90 * azal.al * deg);
         // y -= 60; // skylines height
         ctx.lineWidth = 6;
         ctx.strokeStyle = 'yellow';
@@ -344,8 +416,8 @@
         h -= 15 // skylines height
         let s = 6;
         let r = 30;
-        let x = (/* PI * 0.5 <= az && az <= PI * 1.5 */1) ? (w / 2) - (Math.cos(azal.az - 90 * rad) * (w / 2 - r)) : r;
-        let y = (/* azal.al >= 0 */1) ? h - r - ((h - 2 * r) / 90 * azal.al * deg) : h - r;
+        let x = (w / 2) - (Math.cos(azal.az - 90 * rad) * (w / 2 - r));
+        let y = h - r - ((h - 2 * r) / 90 * azal.al * deg);
         let a = (age <= 0.5)
             ? age * 160 - 40
             : (age - 0.5) * 160 - 40;
@@ -354,12 +426,13 @@
         ctx.rotate(rad * (90 + lat))
         ctx.translate(-x, -y)
         ctx.lineWidth = s;
+        ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
         ctx.strokeStyle = 'white';
         ctx.beginPath();
         ctx.arc(x, y, r, -PI / 2, PI / 2, (age <= 0.5))
         ctx.bezierCurveTo(x + a, y + r + s / 2, x + a, y - r - s / 2, x, y - r);
-        ctx.closePath();
+        // ctx.closePath();
         ctx.stroke();
 
         ctx.restore()
@@ -454,6 +527,7 @@
         output.namedItem("lon").value = lon.toFixed(2);
 
         const now = new Date();
+
         const jd = JD(
             now.getUTCFullYear(),
             now.getUTCMonth() + 1,
@@ -473,28 +547,11 @@
         draw_sun(ctx, width, height, jd);
         draw_skyline(ctx, width, height);
 
-        if (dirty) {
-            const items = article.querySelectorAll('form.item');
-            for (let i = 0; i < items.length; i++) {
-                const rs_sun = get_rise_set(sun, i);
-                const rs_moon = get_rise_set(moon, i);
-
-                items[i].elements.namedItem('day').value = rs_sun.day.getDate();
-                items[i].elements.namedItem('month').value = month[rs_sun.day.getMonth()];
-                items[i].elements.namedItem('sun_rise').value = hhmm(rs_sun.hhrise);
-                items[i].elements.namedItem('sun_rise_az').value = (rs_sun.azr * deg).toFixed(0);
-                items[i].elements.namedItem('sun_set').value = hhmm(rs_sun.hhset);
-                items[i].elements.namedItem('sun_set_az').value = (rs_sun.azs * deg).toFixed(0);
-                items[i].elements.namedItem('moon_rise').value = (rs_moon.hhrise) ? hhmm(rs_moon.hhrise) : '--:--';
-                items[i].elements.namedItem('moon_rise_az').value = (rs_moon.hhrise) ? (rs_moon.azr * deg).toFixed(0) : '--';
-                items[i].elements.namedItem('moon_set').value = (rs_moon.hhset) ? hhmm(rs_moon.hhset) : '--:--';
-                items[i].elements.namedItem('moon_set_az').value = (rs_moon.hhset) ? (rs_moon.azs * deg).toFixed(0) : '--';;
-            };
-        }
-
         const fm = DATE(moon.fullmoon(jd));
         output.namedItem("fullmoon").value = `${('0' + fm.getDate()).slice(-2)}.${('0' + (fm.getMonth() + 1)).slice(-2)}.${fm.getFullYear()} - ${('0' + fm.getHours()).slice(-2)}:${('0' + fm.getMinutes()).slice(-2)}`//new Intl.DateTimeFormat({dateStyle: 'full'}).format(fullmoon);
-        document.body.style.opacity = 1;
+
+        dirty = (now - today) > 86400000;
+        if (busy.open) busy.close();
     }
 
     navigator.geolocation.watchPosition(
@@ -505,7 +562,25 @@
 
             if (dialog.open)
                 dialog.close();
-            //console.log(8)
+
+            if (dirty) {
+                const items = article.querySelectorAll('form.item');
+                for (let i = 0; i < items.length; i++) {
+                    const rs_sun = get_rise_set(sun, i);
+                    const rs_moon = get_rise_set(moon, i);
+
+                    items[i].elements.namedItem('day').value = rs_sun.day.getDate();
+                    items[i].elements.namedItem('month').value = month[rs_sun.day.getMonth()];
+                    items[i].elements.namedItem('sun_rise').value = hhmm(rs_sun.hhrise);
+                    items[i].elements.namedItem('sun_rise_az').value = (rs_sun.azr * deg).toFixed(0);
+                    items[i].elements.namedItem('sun_set').value = hhmm(rs_sun.hhset);
+                    items[i].elements.namedItem('sun_set_az').value = (rs_sun.azs * deg).toFixed(0);
+                    items[i].elements.namedItem('moon_rise').value = (rs_moon.hhrise) ? hhmm(rs_moon.hhrise) : '--:--';
+                    items[i].elements.namedItem('moon_rise_az').value = (rs_moon.hhrise) ? (rs_moon.azr * deg).toFixed(0) : '--';
+                    items[i].elements.namedItem('moon_set').value = (rs_moon.hhset) ? hhmm(rs_moon.hhset) : '--:--';
+                    items[i].elements.namedItem('moon_set_az').value = (rs_moon.hhset) ? (rs_moon.azs * deg).toFixed(0) : '--';;
+                };
+            }
             requestAnimationFrame(draw);
         },
         function (error) {
@@ -527,13 +602,15 @@
         article.appendChild(template.content.cloneNode(true));
     }
 
-
+    window.addEventListener('resize', function (e) {
+        requestAnimationFrame(draw);
+    });
 
     window.addEventListener('deviceorientation', function (e) {
         let alpha = 360 - e.alpha;
         alpha += (alpha < 0) ? 360 : 0;
         output.namedItem("alpha").value = alpha.toFixed(2);
-    })
+    });
 </script>
 
 </html>

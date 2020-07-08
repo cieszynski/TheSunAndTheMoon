@@ -7,8 +7,8 @@
         <!--colorPrimaryDark – The color of the status bar and contextual app bars; this is normally a dark version of colorPrimary.-->
         <item name="colorPrimaryDark">#d2dbe0</item>
         <!-- colorAccent – The color of UI controls such as check boxes, radio buttons, and edit text boxes. -->
-        <!-- android:windowBackground – The color of the screen background. -->
-        <item name="android:windowBackground">#d2dbe0</item>
+        <!-- android:background – The color of the screen background. -->
+        <item name="android:background">#d2dbe0</item>
         <!-- textColorPrimary – The color of UI text in the app bar. -->
         <!-- statusBarColor – The color of the status bar. -->
         <item name="android:statusBarColor">#d2dbe0</item>
