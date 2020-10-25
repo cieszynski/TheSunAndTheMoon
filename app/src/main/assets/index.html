@@ -2,6 +2,8 @@
 <html lang="de">
 <!--
     changelog:
+    1.2 Fullmoon: Possible an error about 6 days corrected
+        Rise/set: Daylight saving not anymore added
     1.1 Canvas: Background and skyline prerenderes for performance
                 Redesign: Infopanel fpr one day
                 Infotext rewritten
@@ -388,7 +390,7 @@
                     Anwendung abgefragt wird. Eine zeitliche Beschränkung hat die Anwendung nicht.
                 </p>
             </div>
-            <div class="card">Version 1.1</div>
+            <div class="card">Version 1.2</div>
         </aside>
     </main>
     <nav class="rail">
@@ -527,43 +529,44 @@
     }
 
     const get_rise_set = function (o) {
-        const tz = today.getTimezoneOffset() / -60;
+        const tday = new Date(today);   // clone
+        const tz = (new Date(tday.getFullYear(),0,1)).getTimezoneOffset() / -60;    // without daylight saving
         let jd = JD(
-            today.getUTCFullYear(),
-            today.getUTCMonth() + 1,
-            today.getUTCDate());
+            tday.getUTCFullYear(),
+            tday.getUTCMonth() + 1,
+            tday.getUTCDate());
         const riseset = o.riseset(jd, tz, lat * rad, lon * rad);
         const riseset_tw = o.riseset(jd, tz, lat * rad, lon * rad, -6);
 
         const hhmmss_rise = hhmmss(riseset.hhrise);
         const hr = hhmmss_rise[0], mr = hhmmss_rise[1], sr = hhmmss_rise[2];
-        today.setHours(hr)
-        today.setMinutes(mr)
-        today.setSeconds(sr)
+        tday.setHours(hr)
+        tday.setMinutes(mr)
+        tday.setSeconds(sr)
 
         jd = JD(
-            today.getUTCFullYear(),
-            today.getUTCMonth() + 1,
-            today.getUTCDate(),
-            today.getUTCHours(),
-            today.getUTCMinutes(),
-            today.getUTCSeconds());
+            tday.getUTCFullYear(),
+            tday.getUTCMonth() + 1,
+            tday.getUTCDate(),
+            tday.getUTCHours(),
+            tday.getUTCMinutes(),
+            tday.getUTCSeconds());
         const rradec_rise = o.rradec(jd);
         const azal_rise = o.azal(jd, lat * rad, lon * rad, rradec_rise.ra, rradec_rise.dec);
 
         const hhmmss_set = hhmmss(riseset.hhset);
         const hs = hhmmss_set[0], ms = hhmmss_set[1], ss = hhmmss_set[2];
-        today.setHours(hs)
-        today.setMinutes(ms)
-        today.setSeconds(ss)
+        tday.setHours(hs)
+        tday.setMinutes(ms)
+        tday.setSeconds(ss)
 
         jd = JD(
-            today.getUTCFullYear(),
-            today.getUTCMonth() + 1,
-            today.getUTCDate(),
-            today.getUTCHours(),
-            today.getUTCMinutes(),
-            today.getUTCSeconds());
+            tday.getUTCFullYear(),
+            tday.getUTCMonth() + 1,
+            tday.getUTCDate(),
+            tday.getUTCHours(),
+            tday.getUTCMinutes(),
+            tday.getUTCSeconds());
         const rradec_set = o.rradec(jd);
         const azal_set = o.azal(jd, lat * rad, lon * rad, rradec_set.ra, rradec_set.dec);
 
@@ -648,7 +651,6 @@
             today.getUTCHours(),
             today.getUTCMinutes(),
             today.getUTCSeconds());
-
         const rs_sun = get_rise_set(sun);
         const rs_moon = get_rise_set(moon);
 
@@ -670,7 +672,8 @@
         moon_set_az.value = (rs_moon.hhset) ? (rs_moon.azs * deg).toFixed(0) : '--';
 
         // FULLMON
-        const fm = DATE(moon.fullmoon(jd));
+        const delta = -6; // is there an error about 6 days?
+        const fm = DATE(moon.fullmoon(jd+delta));
         fullmoon.value = `${('0' + fm.getDate()).slice(-2)}.${('0' + (fm.getMonth() + 1)).slice(-2)}.${fm.getFullYear()} - ${('0' + fm.getHours()).slice(-2)}:${('0' + fm.getMinutes()).slice(-2)}`
     }
 

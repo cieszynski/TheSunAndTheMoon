@@ -13,8 +13,8 @@ android {
         applicationId "de.cieszynski.thesunthemoon"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2
-        versionName '1.1'
+        versionCode 3
+        versionName '1.2'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,10 +29,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    implementation 'androidx.webkit:webkit:1.3.0-rc01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    implementation 'androidx.webkit:webkit:1.4.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }
